@@ -1,130 +1,25 @@
 ---
 title: "Blog 1"
-date: 2025-09-09
+date: 2025-11-20
 weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
+## Chứng nhận ISO năm 2025 và CSA STAR hiện đã khả dụng cùng với hai dịch vụ bổ sung 
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+*Bởi **Chinmaee** Parulekar, đăng ngày 17 tháng 9 năm 2025, thuộc chuyên mục **[Announcements](https://aws.amazon.com/blogs/security/category/post-types/announcements/)**, **[Foundational (100)](https://aws.amazon.com/blogs/security/category/learning-levels/foundational-100/)**, **[Security, Identity & Compliance](https://aws.amazon.com/blogs/security/category/security-identity-compliance/)*
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, _“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”_, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+Amazon Web Services (AWS) đã hoàn tất thành công cuộc kiểm toán mở rộng mà không có bất kỳ phát hiện sai sót nào cho các tiêu chuẩn ISO [9001:2015](https://aws.amazon.com/compliance/iso-9001-faqs/), [27001:2022](https://aws.amazon.com/compliance/iso-27001-faqs/), [27017:2015](https://aws.amazon.com/compliance/iso-27017-faqs/), [27018:2019](https://aws.amazon.com/compliance/iso-27018-faqs/), [27701:2019](https://aws.amazon.com/compliance/iso-27701-faqs/), [20000-1:2018](https://aws.amazon.com/compliance/iso-20000-faqs/),  [22301:2019](https://aws.amazon.com/compliance/iso-22301-faqs/) và [Tiêu chuẩn Cloud Security Alliance (CSA) STAR Cloud Controls Matrix (CCM) v4.0](https://aws.amazon.com/compliance/csa/). Cuộc kiểm toán được thực hiện bởi EY CertifyPoint, và các chứng chỉ đã được cấp lại vào ngày 13 tháng 8 năm 2025. Mục tiêu của cuộc kiểm toán là giúp AWS mở rộng phạm vi các chứng nhận ISO và CSA STAR để bao gồm thêm hai dịch vụ AWS Resource Explorer và AWS Incident Response. Các tiêu chuẩn ISO này bao phủ các lĩnh vực như quản lý chất lượng, an ninh thông tin, bảo mật đám mây, bảo vệ quyền riêng tư, quản lý dịch vụ và duy trì hoạt động kinh doanh liên tục. Việc đạt được các chứng nhận này thể hiện cam kết của AWS trong việc duy trì các biện pháp kiểm soát an ninh mạnh mẽ và bảo vệ dữ liệu khách hàng trên toàn bộ các dịch vụ của mình.
 
----
+Trong cuộc kiểm toán mở rộng này, chúng tôi đã bổ sung thêm hai dịch vụ AWS mới vào phạm vi chứng nhận kể từ lần cấp chứng chỉ gần nhất vào ngày 26 tháng 5 năm 2025. Hai dịch vụ được bổ sung bao gồm:
 
-## Architecture Guidance
+- [AWS Resource Explorer](https://aws.amazon.com/resourceexplorer/)
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+- [AWS Security Incident Response](https://aws.amazon.com/security-incident-response/)
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
+Để xem danh sách đầy đủ các dịch vụ AWS đã được chứng nhận theo tiêu chuẩn ISO và CSA STAR, vui lòng truy cập trang AWS [ISO and CSA STAR Certified](http://aws.amazon.com/compliance/iso-certified). Khách hàng cũng có thể truy cập các chứng chỉ này trực tiếp trong AWS Management Console thông qua [AWS Artifact](https://aws.amazon.com/artifact/).
 
-**The solution architecture is now as follows:**
+| ![](/images/3-BlogsTranslated/blog_1/fig_1_blog_1.png) | Chinmaee Parulekar là Quản lý Chương trình Tuân thủ (Compliance Program Manager) tại AWS, với 6 năm kinh nghiệm trong lĩnh vực an ninh thông tin. Cô sở hữu bằng Thạc sĩ Khoa học (Master of Science) chuyên ngành Hệ thống Thông tin Quản lý (Management Information Systems), cùng các chứng chỉ nghề nghiệp như CISA và HITRUST CCSF Practitioner. |
+|---|---|
 
-> _Figure 1. Overall architecture; colored boxes represent distinct services._
-
----
-
-While the term _microservices_ has some inherent ambiguity, certain traits are common:
-
-- Small, autonomous, loosely coupled
-- Reusable, communicating through well-defined interfaces
-- Specialized to do one thing well
-- Often implemented in an **event-driven architecture**
-
-When determining where to draw boundaries between microservices, consider:
-
-- **Intrinsic**: technology used, performance, reliability, scalability
-- **Extrinsic**: dependent functionality, rate of change, reusability
-- **Human**: team ownership, managing _cognitive load_
-
----
-
-## Technology Choices and Communication Scope
-
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
-
----
-
-## The Pub/Sub Hub
-
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.
-
-- Each microservice depends only on the _hub_
-- Inter-microservice connections are limited to the contents of the published message
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous _push_
-
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
-
----
-
-## Core Microservice
-
-Provides foundational data and communication layer, including:
-
-- **Amazon S3** bucket for data
-- **Amazon DynamoDB** for data catalog
-- **AWS Lambda** to write messages into the data lake and catalog
-- **Amazon SNS** topic as the _hub_
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
-
----
-
-## Front Door Microservice
-
-- Provides an API Gateway for external REST interaction
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**
-- Self-managed _deduplication_ mechanism using DynamoDB instead of SNS FIFO because:
-  1. SNS deduplication TTL is only 5 minutes
-  2. SNS FIFO requires SQS FIFO
-  3. Ability to proactively notify the sender that the message is a duplicate
-
----
-
-## Staging ER7 Microservice
-
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute
-- Step Functions Express Workflow to convert ER7 → JSON
-- Two Lambdas:
-  1. Fix ER7 formatting (newline, carriage return)
-  2. Parsing logic
-- Result or error is pushed back into the pub/sub hub
-
----
-
-## New Features in the Solution
-
-### 1. AWS CloudFormation Cross-Stack References
-
-Example _outputs_ in the core microservice:
-
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
-```

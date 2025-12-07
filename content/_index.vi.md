@@ -19,8 +19,6 @@ chapter: false
 
 &emsp; **Ngành:** Trí Tuệ Nhân Tạo
 
-&emsp; **Lớp:**
-
 &emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Vietnam
 
 &emsp; **Vị trí thực tập:** FCJ Cloud Intern
