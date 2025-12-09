@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-Trong kỳ thực tập của mình, tôi đã tham gia năm sự kiện. Mỗi sự kiện là một trải nghiệm đáng nhớ, mang lại những kiến thức mới mẻ, thú vị và hữu ích, cùng với những món quà và khoảnh khắc tuyệt vời.
+Trong kỳ thực tập của mình, tôi đã tham gia chín sự kiện. Mỗi sự kiện là một trải nghiệm đáng nhớ, mang lại những kiến thức mới mẻ, thú vị và hữu ích, cùng với những món quà và khoảnh khắc tuyệt vời.
 
 ### [Sự kiện 1](4.1-Event1/)
 
@@ -75,5 +75,41 @@ Trong kỳ thực tập của mình, tôi đã tham gia năm sự kiện. Mỗi 
 &emsp;**Thời gian:** 09:30, Ngày 16 tháng 10 năm 2025
 
 &emsp;**Địa điểm:** Hall Academic – Trường ĐH FPT, TP.HCM
+
+&emsp;**Vai trò:** Người tham dự
+
+---
+
+### [Sự kiện 7](4.7-Event7/)
+
+&emsp;**Tên sự kiện:** Vietnam Cloud Day
+
+&emsp;**Thời gian:** Ngày 18 tháng 09 năm 2025
+
+&emsp;**Địa điểm:** TP.HCM
+
+&emsp;**Vai trò:** Người tham dự
+
+---
+
+### [Sự kiện 8](4.8-Event8/)
+
+&emsp;**Tên sự kiện:** Kick-off AWS First Cloud Journey Workforce OJT FALL 2025
+
+&emsp;**Thời gian:** Ngày 06 tháng 09 năm 2025
+
+&emsp;**Địa điểm:** Tháp Bitexco Financial Tower, TP.HCM
+
+&emsp;**Vai trò:** Người tham dự
+
+---
+
+### [Sự kiện 9](4.9-Event9/)
+
+&emsp;**Tên sự kiện:** CloudThinker: Agentic AI & Orchestration trên AWS
+
+&emsp;**Thời gian:** Ngày 05 tháng 12 năm 2025
+
+&emsp;**Địa điểm:** TP.HCM
 
 &emsp;**Vai trò:** Người tham dự

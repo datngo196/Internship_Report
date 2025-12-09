@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-During my internship, I participated in five events. Each one was a memorable experience that provided new, interesting, and useful knowledge, along with gifts and wonderful moments.
+During my internship, I participated in nine events. Each one was a memorable experience that provided new, interesting, and useful knowledge, along with gifts and wonderful moments.
 
 ### [Event 1](4.1-Event1/)
 
@@ -68,12 +68,48 @@ During my internship, I participated in five events. Each one was a memorable ex
 
 ---
 
-### [Event 6](4.5-Event5/)
+### [Event 6](4.6-Event6/)
 
 &emsp;**Event Name:** Workshop: Data Science on AWS
 
 &emsp;**Date & Time:** 09:30, October 16, 2025
 
 &emsp;**Location:** Hall Academic – FPT University, Ho Chi Minh City
+
+&emsp;**Role:** Attendee
+
+---
+
+### [Event 7](4.7-Event7/)
+
+&emsp;**Event Name:** Vietnam Cloud Day
+
+&emsp;**Date & Time:** September 18, 2025
+
+&emsp;**Location:** Ho Chi Minh City
+
+&emsp;**Role:** Attendee
+
+---
+
+### [Event 8](4.8-Event8/)
+
+&emsp;**Event Name:** Kick-off AWS First Cloud Journey Workforce OJT FALL 2025
+
+&emsp;**Date & Time:** September 06, 2025
+
+&emsp;**Location:** Bitexco Financial Tower, Ho Chi Minh City
+
+&emsp;**Role:** Attendee
+
+---
+
+### [Event 9](4.9-Event9/)
+
+&emsp;**Event Name:** CloudThinker: Agentic AI & Orchestration on AWS
+
+&emsp;**Date & Time:** December 05, 2025
+
+&emsp;**Location:** Ho Chi Minh City
 
 &emsp;**Role:** Attendee
