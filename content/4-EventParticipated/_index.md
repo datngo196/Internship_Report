@@ -1,6 +1,6 @@
 ---
 title: "Events Participated"
-date: 2025-11-20
+date: 2025-10-20
 weight: 4
 chapter: false
 pre: " <b> 4. </b> "
